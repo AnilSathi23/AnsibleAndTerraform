@@ -1,10 +1,6 @@
-# AnsibleAndTerraform
+# Ansible
 
 ![alt text](image-8.png)
-
-![alt text](image.png)
-
-![alt text](image-1.png)
 
 Provisioning and configuration in one step is called templating
 
@@ -20,8 +16,6 @@ Ansible is developed using Python
 
 All that we need to execute a set of commands
 
-![alt text](image-5.png)
-
 https://docs.ansible.com/ansible/latest/installation_guide/installation_distros.html
 
 - $ sudo apt update
@@ -33,8 +27,6 @@ Ubuntu by defalt has python.
 
 https://docs.ansible.com/ansible/latest/inventory_guide/intro_inventory.html
 
-
-![alt text](image-6.png)
 
 Assignment
 

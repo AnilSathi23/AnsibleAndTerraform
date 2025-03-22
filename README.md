@@ -30,10 +30,10 @@ All that we need to execute a set of commands
 
 https://docs.ansible.com/ansible/latest/installation_guide/installation_distros.html
 
-- $ sudo apt update
-- $ sudo apt install software-properties-common
-- $ sudo add-apt-repository --yes --update ppa:ansible/ansible
-- $ sudo apt install ansible
+sudo apt update
+sudo apt install software-properties-common
+sudo add-apt-repository --yes --update ppa:ansible/ansible
+sudo apt install ansible
 
 Ubuntu by defalt has python.
 
@@ -49,11 +49,25 @@ This is the default location of the ansible confioguration file sudo nano /etc/a
 **Ansible Controller**
 
 - ansible --version
+https://github.com/ansible/ansible/blob/stable-2.9/examples/ansible.cfg
+
 - python3 --version (Python is installed by default in ubuntu)
-- mkdir ansible-demo
-- cd ansible-demo
+- mkdir ansible-controller
+- cd ansible-controller
+- nano ansible.cfg
+    [defaults]
+    inventory = ./dev
+
 - sudo nano dev 
 - This file contains the inventory information like **IP address, ansible_user,ansible_password,ansible_ssh_private_key_file etc**
+  Add the IP addresses of the node that you wan't to connect
+  If the username is not provided explicilty then Ansible will use the current user.
+
+18.221.208.64 ansible_user=ubuntu ansible_ssh_private_key_file=key1.pem
+18.117.134.30 ansible_user=ec2-user ansible_ssh_private_key_file=key2.pem
+
+3.145.40.86
+3.135.188.217
 
 - sudo nano key.pem
 - chmod 400 key.pem
@@ -61,14 +75,9 @@ This is the default location of the ansible confioguration file sudo nano /etc/a
 - ssh-keygen
 
 - cat /home/ubuntu/.ssh/id_ed25519.pub
-- ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFR67Wypg/J6Z78fW6By6D2daVTgxR/8ZdOY5dBbltAm ubuntu@ip-172-31-35-124
-
-sudo cat ansible.cfg
-[defaults]
-inventory = ./dev
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ45z/6xA/3VFkP9suCPMK4iRx88y+kk2TR5NadYkjSL ubuntu@ip-172-31-42-45
 
 **Ansible Node**
-- sudo apt update
 - python3 --version
 - sudo nano .ssh/authorize_keys
 
@@ -77,11 +86,144 @@ inventory = ./dev
 - Connect to the node
 - sudo ssh ubuntu@3.19.76.162
 
+sudo ssh ubuntu@18.221.208.64 
+sudo ssh ec2-user@18.117.134.30
+
+
+ssh -v root@3.16.214.209
+
+Ansible Ubuntu Controller 3.147.42.88
+Ansible Ubuntu Node       18.216.244.164
+Ansible Amazon Linux Node 18.220.227.123
+
+
+mkdir playbooks
+sudo nano playbooks/install-apache.yml
+
+---
+- hosts: all
+  become: true
+  tasks:
+   - name: Install apache
+     apt: name=apache2 state=present
+
+   - name: Start Apache
+     service: name=apache2 state=started
 
 
 
+sudo ansible-playbook playbooks/install-apache.yml
 
 
+[webserver]
+18.221.208.64 ansible_user=ubuntu ansible_ssh_private_key_file=key1.pem
+1.1.1.1
+2.2.2.2
+3.3.3.3
+
+[db]
+18.117.134.30 ansible_user=ec2-user ansible_ssh_private_key_file=key2.pem
+4.4.4.4
+5.5.5.5
+
+
+sudo nano playbooks.shell-demo.yml
+
+
+---
+- hosts: webserver
+  become: true
+  tasks:
+    - name: create a dir
+      shell: mkdir test
+
+sudo ansible-playbook playbooks/shell-demo.yml
+
+vi pl
+
+sudo nano playbooks/command-demo.yml
+
+---
+- hosts: webserver
+  tasks:
+   - command: abc
+
+sudo ansible-playbook playbooks/command-demo.yml
+
+sudo nano playbook/index.html
+
+<html>
+<head></head>
+<body><h1>Welcome to Ansible</h1></body>
+<html>
+
+
+sudo nano playbooks/copy-demo.yml
+
+---
+- hosts: webserver
+  become: true
+  tasks:
+    - name: Deploy Application
+      copy: 
+        src: index.html 
+        dest: /var/www/html/
+
+
+sudo ansible-playbook playbooks/copy-demo.yml
+
+http://18.221.208.64/
+
+![alt text](image-9.png)
+
+cd /etc/apache2 
+
+cat ports.conf
+
+
+sudo nano playbooks/lineinfile-demo.yml
+
+---
+- hosts: webserver
+  become: true
+  tasks:
+    - name: Update apache port
+      lineinfile: 
+        path: /etc/apache2/ports.conf
+        regexp: "^listen 80"
+        line: "Listen 90"
+    
+    - name: Restart Apache
+      service: name=apache2 state=restarted
+
+sudo ansible-playbook playbooks/lineinfile-demo.yml
+
+cp playbooks/lininfile-demo.yml playbooks/handlers-demo.yml
+
+
+---
+- hosts: webserver
+  become: true
+  tasks:
+    - name: Update apache port
+      lineinfile:
+        path: /etc/apache2/ports.conf
+        regexp: "^listen 80"
+        line: "Listen 90"
+      notify: Restart Apache
+
+  handlers:
+    - name: Restart Apache
+      service: name=apache2 state=restarted
+
+    Handlers will only get executed only ones.
+
+
+https://www.redhat.com/en/services/certification/rhcs-ansible-automation
+
+https://www.redhat.com/en/services/training/ex294-red-hat-certified-engineer-rhce-exam-red-hat-enterprise-linux-9
+
+![alt text](image-10.png)
 
 
 

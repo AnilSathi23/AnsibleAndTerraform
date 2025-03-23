@@ -111,8 +111,34 @@ sudo nano playbooks/install-apache.yml
      service: name=apache2 state=started
 
 
+---
+- hosts: all
+  become: true
+  tasks:
+   - name: Install apache
+     apt: name=apache2 state=present
+     tags: install
+
+   - name: Start Apache
+     service: name=apache2 state=started
+     tags: config
+
+install-apache.yml
 
 sudo ansible-playbook playbooks/install-apache.yml
+
+dry run of the playbook
+
+sudo ansible-playbook playbooks/install-apache.yml --check
+
+sudo ansible-playbook playbooks/install-apache.yml --start-at-task "Start Apache"
+
+sudo ansible-playbook playbooks/install-apache.yml --tags "install"
+
+sudo ansible-playbook playbooks/install-apache.yml --skip-tags "install"
+
+if the above command doesn't work use the below
+ansible-playbook -i dev playbooks/install-apache.yml
 
 
 [webserver]
@@ -128,6 +154,7 @@ sudo ansible-playbook playbooks/install-apache.yml
 
 
 sudo nano playbooks.shell-demo.yml
+
 
 
 ---
@@ -225,13 +252,31 @@ https://www.redhat.com/en/services/training/ex294-red-hat-certified-engineer-rhc
 
 ![alt text](image-10.png)
 
+We will be using variable to make playbooks configurable
+
+---
+- hosts: web1
+  become: true
+  vars:
+    pkg_name: nano
+  tasks:
+    - name: Install {{ pkg_name }}
+      apt: name= "{{ pkg_name }}" state=present
+
+The variables are available defined in the playbook will be availble in the context of all the nodes that the playbook targets
+
+![alt text](image-11.png)
+
+![alt text](image-12.png)
+
+2 differnt playbooks defined in a single file
+
+![alt text](image-13.png)
 
 
+![alt text](image-14.png)
 
-
-
-
-
+![alt text](image-15.png)
 
 
 

@@ -63,7 +63,7 @@ https://github.com/ansible/ansible/blob/stable-2.9/examples/ansible.cfg
   Add the IP addresses of the node that you wan't to connect
   If the username is not provided explicilty then Ansible will use the current user.
 
-18.221.208.64 ansible_user=ubuntu ansible_ssh_private_key_file=key1.pem
+3.142.96.200 ansible_user=ubuntu ansible_ssh_private_key_file=key1.pem
 18.117.134.30 ansible_user=ec2-user ansible_ssh_private_key_file=key2.pem
 
 3.145.40.86
@@ -277,6 +277,152 @@ The variables are available defined in the playbook will be availble in the cont
 ![alt text](image-14.png)
 
 ![alt text](image-15.png)
+
+Run Time variables can also be passed.
+
+ansible-playbook playbooks.host-var-demo.yml --extra-vars pkg_name=test
+
+![alt text](image-16.png)
+
+![alt text](image-17.png)
+
+Instead of printing everything we can just print the results that are changed
+
+![alt text](image-18.png)
+
+![alt text](image-19.png)
+
+By default Ansible creates an array call hostvars
+
+web1 
+pkg_name=nano
+web2
+pkg_name=ntp
+pkg_name1=httpd
+
+![alt text](image-20.png)
+
+These are called magic variables. All of these available in memory
+
+
+Can you write a single playbook which installs apcahe on 2 different operating systems?
+
+Yes using conditionals
+![alt text](image-21.png)
+
+![alt text](image-22.png)
+
+Gathering facts
+It creates an execution plan and gathers system information
+
+
+To optize playbooks you can use blocks
+
+![alt text](image-24.png)
+
+Blocks also help in error handling
+
+![alt text](image-25.png)
+
+similar to try catch finally
+
+![alt text](image-26.png)
+
+The following is giving name to a block
+![alt text](image-27.png)
+
+Assignment
+Step1: setup the following
+![alt text](image-28.png)
+
+Step2: one universal playbook which should install apache on both the environments and started
+
+Step3: Update the message with the status of the installation on each environment
+"Apache insalled and running" or
+"Apache is not installed and not running"
+
+Step4: what ever you update in the welcome message shoudl be printed on the console as 
+
+
+![alt text](image-29.png)
+
+any_errors_fatal: true
+
+Execution of the playbook must be serialized. That means it will for every node to complete each task and then it will continue. If any one node
+stops all the other nodes also will stop execution.
+
+
+![alt text](image-30.png)
+
+Ansible will continue the playbook executon until the error threshold is reached.
+
+![alt text](image-31.png)
+
+Ignore errors at the task level can be added
+
+![alt text](image-32.png)
+
+![alt text](image-33.png)
+
+Templating
+
+![alt text](image-34.png)
+
+Jinja Templates
+This is not part of Ansible and as a tool it has nothing to do with jinja and these templates are used for python.
+As Ansbile is using Python we can use it for Python.
+
+![alt text](image-35.png)
+
+![alt text](image-36.png)
+
+![alt text](image-37.png)
+
+![alt text](image-38.png)
+
+https://jinja.palletsprojects.com/en/3.1.x/changes/
+
+https://jinja.palletsprojects.com/en/2.10.x/templates/  
+
+![alt text](image-39.png)
+
+![alt text](image-40.png)
+
+![alt text](image-41.png)
+
+Ansible Roles
+
+Is a predefined directory structure
+
+![alt text](image-42.png)
+
+ansible-galaxy init web
+
+![alt text](image-43.png)
+
+![alt text](image-44.png)
+
+![alt text](image-45.png)
+
+![alt text](image-46.png)
+
+galaxy.ansible.com/ui/standalone/roles/
+
+![alt text](image-47.png)
+
+![alt text](image-48.png)
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

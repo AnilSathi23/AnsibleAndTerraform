@@ -30,10 +30,10 @@ All that we need to execute a set of commands
 
 https://docs.ansible.com/ansible/latest/installation_guide/installation_distros.html
 
-sudo apt update
-sudo apt install software-properties-common
-sudo add-apt-repository --yes --update ppa:ansible/ansible
-sudo apt install ansible
+- sudo apt update
+- sudo apt install software-properties-common
+- sudo add-apt-repository --yes --update ppa:ansible/ansible
+- sudo apt install ansible
 
 Ubuntu by defalt has python.
 
@@ -413,6 +413,23 @@ galaxy.ansible.com/ui/standalone/roles/
 ![alt text](image-48.png)
 
 
+![alt text](image-49.png)
+
+![alt text](image-50.png)
+
+Ansible Galaxy is a repository for finding, sharing, and managing Ansible roles and collections. It's like a central library where developers can access pre-built configurations and automations for their projects. Users can either browse the Galaxy to find reusable roles created by others or upload their own to share with the community. This makes it much easier to streamline tasks, avoid duplicating effort, and collaborate effectively within the Ansible ecosystem. Let me know if you'd like a deeper dive into how it works or its key features!
+
+Ansible Vault is a tool within Ansible designed for securely storing sensitive data, such as passwords, API keys, or other confidential information. It allows you to encrypt your files and variables so that they remain protected while still being usable within your playbooks. You can encrypt, decrypt, edit, or rekey files directly using the `ansible-vault` command-line tool.
+
+This is particularly useful in scenarios where you want to manage secrets securely across your infrastructure without exposing them in plain text. Let me know if you'd like me to elaborate further or share examples of how it works!
+
+![alt text](image-51.png)
+
+![alt text](image-52.png)
+
+![alt text](image-53.png)
+
+![alt text](image-54.png)
 
 
 

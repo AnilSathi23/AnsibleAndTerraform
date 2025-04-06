@@ -24,7 +24,28 @@ https://www.terraform.io/
 
 https://registry.terraform.io/browse/providers
 
+https://registry.terraform.io/providers/hashicorp/aws/latest/docs
+
+TLS provider helps to create certificates,private and public key
+https://registry.terraform.io/providers/hashicorp/tls/latest/docs
+
+https://registry.terraform.io/providers/hashicorp/local/latest/docs/resources/file
+
+https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ami
+
+terraform state show data.aws_ami.my-ami
 
 
+![alt text](image.png)
 
+![alt text](image-1.png)
 
+![alt text](image-3.png)
+
+![alt text](image-4.png)
+
+![alt text](image-5.png)
+
+![alt text](image-7.png)
+
+![alt text](image-8.png)
